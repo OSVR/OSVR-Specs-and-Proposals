@@ -1,0 +1,61 @@
+{
+  "deviceVendor": "Leap Motion",
+  "deviceName": "Leap Motion Controller - Tracked Hand",
+  "author": "Ryan Pavlik <ryan@sensics.com>",
+  "version": 1,
+  "lastModified": "2015-02-13T21:21:58.537Z",
+  "interfaces": {
+    "tracker": {
+      "count": 27,
+      "bounded": true,
+      "position": true,
+      "orientation": true
+    }
+  },
+  "semantic": {
+    "elbow": "/tracker/0",
+    "wrist": "/tracker/1",
+    "hand": {
+      /* the 'hand' tracker is not a joint in the skeleton strictly speaking, but is a useful alias to provide concise reports for */
+      "$target": "/tracker/26",
+      "fingers": {
+        /* These joints are described by the 'child' bone - that is,
+           the tracker is virtually at the proximal end of the named bone. */
+        "thumb": {
+          "metacarpal_base": "/tracker/2",
+          "proximal_phalanx_base": "/tracker/3",
+          "distal_phalanx_base": "/tracker/4",
+          "tip": "/tracker/5"
+        },
+        "index": {
+          "metacarpal_base": "/tracker/6",
+          "proximal_phalanx_base": "/tracker/7",
+          "intermediate_phalanx_base": "/tracker/8",
+          "distal_phalanx_base": "/tracker/9",
+          "tip": "/tracker/10"
+        },
+        "middle": {
+          "metacarpal_base": "/tracker/11",
+          "proximal_phalanx_base": "/tracker/12",
+          "intermediate_phalanx_base": "/tracker/13",
+          "distal_phalanx_base": "/tracker/14",
+          "tip": "/tracker/15"
+        },
+        "ring": {
+          "metacarpal_base": "/tracker/16",
+          "proximal_phalanx_base": "/tracker/17",
+          "intermediate_phalanx_base": "/tracker/18",
+          "distal_phalanx_base": "/tracker/19",
+          "tip": "/tracker/20"
+        },
+        "pinky": {
+          "metacarpal_base": "/tracker/21",
+          "proximal_phalanx_base": "/tracker/22",
+          "intermediate_phalanx_base": "/tracker/23",
+          "distal_phalanx_base": "/tracker/24",
+          "tip": "/tracker/25"
+        }
+      }
+    }
+  }
+}
