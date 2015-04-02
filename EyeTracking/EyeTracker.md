@@ -9,16 +9,17 @@ Thank you for your interest in connecting with the OSVR ecosystem! This document
 We recommend that your plugin auto-detects the presence of Eye Tracker Device, that is connected to the HMD and will be transmitting data into OSVR. 
 The following fully qualified (that is, including the plugin name) device name is suggested `com_vendorName_DeviceName`. 
 
-Tracker can support binocular and monocular modes. For binocular mode, it will report data from two sensors for each
-eye. In monocular mode, only one sensor will provide data. 
+Tracker can support binocular and monocular modes. For binocular mode, it will report data based on sensors for both eyes. In monocular mode, only one sensor will provide data. 
+
+The tracker plugin can choose to implement both types at the same time, so that a binocular tracker would also have two monocular trackers.
 
 ## Interface Classes
 The following interface class is recommended for a first pass at the plugin. It is listed in a proposed order of implementation based on, among other factors, API availability and client application usage.
 
 - Eye Tracker interface: A device instance would be able to report the following info:
-	- Gaze position	: Gaze data types are available either in 2D (pixels) or 3D (mm) coordinates. The normalized gaze position will provide normalized 0 - 1 coordinates. By default, we'll use pixels and mm for 2D and 3D respectively.
+	- Gaze direction: Gaze data types are available either in 2D (screen coordinates) or 3D (direction vector) coordinates. The normalized gaze position will provide normalized 0 - 1 coordinates. By default, we'll use normalized pixels and quaternions for 2D and 3D respectively.
 	- Blink event	: Boolean event that signals whenever user blinks which is an optional feature
-	- Calibration	: Allows the plugin to start calibration process and detect when calibration is done.
+	- Calibration	: Allows the plugin to start calibration process and detect when calibration is done. Calibration can initially be vendor-specific.
 
 Initially, there will be support for binocular mode only (verged gaze point), and monocular mode to track gazes of individual eyes would be added later on. 
 
@@ -50,8 +51,8 @@ As your device uses existing interface classes, we are confident that your devel
 
 ## Open Issues
 - There are additional data that can be retrieved from the tracker, that may be useful in applications which include:
-	- Gaze angle
-	- Head rotation
+	- Pupil size
 	- Pupil Aspect Ratio
-	- Fixation seconds
+	- Duration of fixation
+	- Loading/saving user profile, if necessary
 - When the tracker "loses" pupils (For example, user takes off the HMD), should a special event be generated to let application know of situation?
