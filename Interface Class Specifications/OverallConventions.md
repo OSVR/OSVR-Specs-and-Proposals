@@ -14,6 +14,8 @@ Most interfaces have a concept of "sensor" or "channel": this is a numbered data
 - Angular velocity: an incremental unit (normalized) quaternion and a time interval.
 - Angular acceleration: an incremental unit (normalized) quaternion and a time interval.
 
+Rotational derivatives are reported as a paired quaternion and delta time to be able to avoid limitations in the expressivity of quaternions for incremental rotations.
+
 ## Coordinate Systems
 The global OSVR coordinate system is right-handed, with _x_ to the right and _y_ up. When depicted with only color as a label, axes match RGB-XYZ respectively.
 
