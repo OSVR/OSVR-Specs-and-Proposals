@@ -1,4 +1,4 @@
-# Interface Class Description: NAME HERE
+# Interface Class Specification: NAME HERE
 
 ## Device class summary
 
