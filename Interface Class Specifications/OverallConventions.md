@@ -2,6 +2,8 @@
 
 Items here apply to all interface classes. Note that these conventions hold within the OSVR system. Game engine integrations may (and should) adapt to the engine's native conventions.
 
+Most interfaces have a concept of "sensor" or "channel": this is a numbered data source for a particular interface class on a device name. A sensor may not be a literal sensor - it may be a feature point in the environment, a different semantic value, etc. - but it should have a persistent identity for that device and interface. There is no required correspondence between sensor numbers for different interface classes on a device: Tracker 0 may physically be associated with Button 0, 1, 2, and 3, and Analog 0 and 1. These relationships are not automatically implied, and thus are to be described in the JSON descriptor for a device.
+
 ## Units
 
 - Distance/length: meters
