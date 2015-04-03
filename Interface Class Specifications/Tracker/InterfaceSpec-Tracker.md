@@ -35,6 +35,8 @@ Devices should only report what they observe, at least on their primary device n
 
 Note that because of the VRPN core, the so-called "subset" messages (reporting less than 6DOF) are embedded in a full 6DOF VRPN message (with missing components zero or identity) on the wire for backward compatibility. This does not affect native OSVR clients or OSVR game engine integrations, as the client library has the descriptor data to determine what portions of the message are real data.
 
+With respect to subset messages, this document is written with the device driver author primarily in mind. Client applications can access full or subset data as available, and full reports also trigger subset callbacks/populate subset data.
+
 ### Pose
 #### Data
 - Sensor number
