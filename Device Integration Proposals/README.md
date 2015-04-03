@@ -1,4 +1,4 @@
-# Readme on Specific Devices
+# Readme on Device Integration Proposals
 
 > Prepared by Sensics, Inc. on 2-Apr-2015
 
