@@ -37,6 +37,8 @@ Note that because of the VRPN core, the so-called "subset" messages (reporting l
 
 With respect to subset messages, this document is written with the device driver author primarily in mind. Client applications can access full or subset data as available, and full reports also trigger subset callbacks/populate subset data.
 
+Each message reports data on only a single sensor, and (in part because the set of sensor IDs is logically unbounded) no initial state is automatically transmitted to new clients outside of normal device operation.
+
 ### Pose
 #### Data
 - Sensor number
@@ -70,7 +72,7 @@ This is a subset message of **Pose**, for sensors that report only orientation. 
 - Delta time for incremental rotation (seconds)
 
 #### Rationale
-This is the full "first derivative" tracker message.
+This is the full "first derivative" tracker message. It, and all of its subset messages, are in the same coordinate system as the Pose messages (that is, the global coordinate system).
 
 ### LinearVelocity
 This is a subset message of **Velocity**, for sensors that report only linear/translational velocity.
@@ -97,7 +99,9 @@ This is a subset message of **Velocity**, for sensors that report only rotationa
 - Delta time for rotation (seconds)
 
 #### Rationale
-This is the full "second derivative" tracker message. Note that gravity is not included in the linear acceleration component: a sensor that is fully still should report 0 acceleration.
+This is the full "second derivative" tracker message. It, and all of its subset messages, are in the same coordinate system as the Pose messages (that is, the global coordinate system).
+
+Note that gravity is not included in the linear acceleration component: a sensor that is fully still should report 0 acceleration.
 
 ### LinearAcceleration
 This is a subset message of **Acceleration**, for sensors that report only linear/translational acceleration, such as an accelerometer (though accelerometer data should have the effect of gravity filtered out of it first).
@@ -117,12 +121,8 @@ This is a subset message of **Acceleration**, for sensors that report only rotat
 
 ## Open issues
 
-- What coordinate system are the velocity and acceleration in? Global coordinate system would make the most sense.
 - The relationship between trackers and locomotion devices is somewhat open. Present thinking is that most consumer-related locomotion devices provide a locomotion interface (which is primarily a 2D movement - velocity on the plane) as well as a limited tracker interface that reports the direction a user is facing and height for crouching/jumping.
 - The current derivative messages can provide raw data from only two of the three instruments integrated into modern "9-axis" IMUs: rate gyroscopes and accelerometers can be reported in the derivative messages, but the magnetometer/compass data cannot. (And, the direction of gravity detected by the accelerometer cannot be reported.) Presently, compass data is either reported in a vendor-specific way in analog channels or not reported at all, but to permit sensor-fusion algorithms within OSVR it might be useful to have a standardized compass report.
-- A number of predictive tracking and sensor fusion algorithms (the family derived from the Kalman filter, most recognizably) operate using the data and a measurement of uncertainty. There is currently no standardized way to report uncertainty in measurements in this (or other) interfaces, besides an analog channel with user-defined semantics.
+- A number of predictive tracking and sensor fusion algorithms (the family derived from the Kalman filter, most recognizably) operate using the data and a measurement of uncertainty. There is currently no standardized way to report uncertainty in measurements in this (or other) interfaces, besides an analog channel with user-defined semantics or fixed uncertainty reported in JSON descriptions.
 - Might a single sensor conceivably report just a position at one time and at some later time report orientation only or a full pose? Or, can we infer that the particular subset/full message sent is the data sent on that channel?
 - The preferred semantics for handling "downgrading" of messages to subset messages is currently an open topic.
-
-## Other resources
-- TODO
