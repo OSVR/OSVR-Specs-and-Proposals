@@ -1,6 +1,9 @@
 # Interface Class Specification: Analog
 
 ## Device class summary
+
+> Status: implemented
+
 This is a basic device class for exposing one or more "channels"/sensors of floating-point-valued (double precision) data. No explicit meaning is necessarily ascribed to a given channel or group of channels. The number of channels is bounded and typically known at startup.
 
 Like Tracker and Button, this is one of the "classic" VR device classes. The canonical example of analog input would be a slider, analog trigger button, or an axis of a joystick. Those examples all have a known, and fixed, minimum and maximum value, and all but the slider also have restorative force that bring them to a "default" value (center in the joystick, minimum in the trigger). These values are not necessarily standard across peripherals, but they can be described in the JSON device descriptor so that, for instance, joystick axis data can be mapped to the range [-1.0, 1.0].

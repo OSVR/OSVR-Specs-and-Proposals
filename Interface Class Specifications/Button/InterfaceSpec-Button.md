@@ -1,6 +1,9 @@
 # Interface Class Specification: Button
 
 ## Device class summary
+
+> Status: implemented
+
 This is a basic device class for buttons and other binary (on/off) sensors/channels. No explicit meaning is necessarily ascribed to a given channel or group of channels. The number of channels is bounded and typically known at startup.
 
 In many cases, buttons are associated with other interface classes: for example, a tracked controller may have several buttons on it. These associations should be reflected in the semantic data in the JSON device descriptor data.

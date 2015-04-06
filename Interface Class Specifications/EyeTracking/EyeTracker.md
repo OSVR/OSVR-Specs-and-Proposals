@@ -1,5 +1,7 @@
 # Interface Class Description: Eye Tracker
 
+> status: in discussions
+
 ## Device class summary
 The eye tracker devices provide detailed information about one or both eyes movement. It includes tracking gaze direction using 2D or 3D coordinates, detecting blink events and others (eye fixation, saccades, etc.). Tracker can support binocular and monocular modes. For binocular mode, it will report data based on sensors for both eyes. In monocular mode, only one sensor will provide data. 
 The tracker plugin can choose to implement both types at the same time, so that a binocular tracker would also have two monocular trackers.

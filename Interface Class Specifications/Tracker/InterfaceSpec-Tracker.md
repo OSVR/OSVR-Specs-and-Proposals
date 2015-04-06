@@ -1,5 +1,7 @@
 # Interface Class Description: Tracker
 
+> Status: implemented
+
 ## Device class summary
 This is a basic device class used to expose data that is some way a position, orientation, both, or their derivatives (velocity, acceleration). Note that in this document and elsewhere, *pose* is a term used to mean "position and orientation". Not all devices can report a full 6 degree of freedom pose (6DOF - 3DOF in translation/position, 3DOF in rotation/orientation), and many devices do not report any derivatives (for example). This wide variation in data reporting is accommodated in two ways:
 

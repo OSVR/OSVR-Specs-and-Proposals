@@ -1,5 +1,7 @@
 # Interface Class Specification: Locomotion Devices
 
+> Status: in discussions
+
 ## Device class summary
 This class of devices encompasses a range of systems, many referred to as "omni-directional treadmills" (ODT), designed to provide a walking-type navigation input into a virtual environment, on a *2D ground plane*.
 

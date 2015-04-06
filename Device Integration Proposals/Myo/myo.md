@@ -2,6 +2,8 @@
 
 > Prepared by Sensics, Inc. on 11-February-2015
 
+> Status: in discussions
+
 Thank you for your interest in connecting with the OSVR ecosystem! This document lays out a proposed strategy for making your device functionality available in OSVR, including how to factor it into the generic device interface classes.
 
 
