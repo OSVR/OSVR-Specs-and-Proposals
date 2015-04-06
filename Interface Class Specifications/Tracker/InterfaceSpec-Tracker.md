@@ -122,6 +122,7 @@ This is a subset message of **Acceleration**, for sensors that report only rotat
 - The current derivative messages can provide raw data from only two of the three instruments integrated into modern "9-axis" IMUs: rate gyroscopes and accelerometers can be reported in the derivative messages, but the magnetometer/compass data cannot. (And, the direction of gravity detected by the accelerometer cannot be reported.) Presently, compass data is either reported in a vendor-specific way in analog channels or not reported at all, but to permit sensor-fusion algorithms within OSVR it might be useful to have a standardized compass report.
 - A number of predictive tracking and sensor fusion algorithms (the family derived from the Kalman filter, most recognizably) operate using the data and a measurement of uncertainty. There is currently no standardized way to report uncertainty in measurements in this (or other) interfaces, besides an analog channel with user-defined semantics.
 - Might a single sensor conceivably report just a position at one time and at some later time report orientation only or a full pose? Or, can we infer that the particular subset/full message sent is the data sent on that channel?
+- The preferred semantics for handling "downgrading" of messages to subset messages is currently an open topic.
 
 ## Other resources
 - TODO
