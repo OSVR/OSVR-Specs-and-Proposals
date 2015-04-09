@@ -15,8 +15,18 @@ The goal with the naming scheme is to facilitate persistent semantic association
 ## Interface Classes
 The following interface classes are recommended for a first pass at the plugin, and are already available to code against in OSVR:
 
-- Eye tracker interface: the suggested interface is defined in 'EyeTracking' under the 'interface class specifications' area. We recommend three channels from this interface: channel 0 for left eye information, channel 1 for right eye information and channel 2 for binocular information. The interface has several suggested events. Imeplementation of these events is optional.
-- Imager interface. This provides with a live video image of the camera looking at each eye. We recommend two channels from this interface: 0 for left eye and 1 for right eye
+### Eye tracker interface
+The suggested interface is defined in 'EyeTracking' under the 'interface class specifications' area. We recommend three sensors from this interface: 
+- Sensor 0 for left eye information
+- Sensor 1 for right eye information 
+- Sensor 2 for binocular information. 
+The interface has several suggested events. Imeplementation of these events is optional.
+
+### Imager interface. 
+
+This provides with a live video image of the camera looking at each eye. We recommend two sensors from this interface: 
+- Sensor 0 for left eye 
+- Sensor 1 1 for right eye
 
 ## Device Descriptor
 OSVR devices provide a JSON device descriptor to the core that describes their capabilities, identifies the interfaces and channels provided in a human-friendly and semantic way, and more.

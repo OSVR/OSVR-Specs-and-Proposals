@@ -22,7 +22,7 @@ The gaze position is going to be offered either in 2D or 3D measured in pixel an
 ### Gaze Direction
 #### Data
 - A 2D vector (screen coordinates) containing the current user's gaze direction, in pixels.
-- A 3D vector (direction vector) containing the current user's gaze direction, in quaternions.
+- A 3D vector (direction vector) containing the current user's gaze direction.
 
 #### Rationale
 This allows application how to process gaze input, thus providing flexibility in choice of coordinates for different types of applications. The normalized gaze position will provide normalized 0 - 1 coordinates. By default, we'll use normalized pixels and quaternions for 2D and 3D respectively.

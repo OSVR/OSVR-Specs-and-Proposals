@@ -2,7 +2,7 @@
 
 ## Device class summary
 
-> Status: implemented
+> Status: **implemented**
 
 This is a basic device class for buttons and other binary (on/off) sensors/channels. No explicit meaning is necessarily ascribed to a given channel or group of channels. The number of channels is bounded and typically known at startup.
 
