@@ -16,6 +16,11 @@ The tracker plugin can choose to implement both types at the same time, so that 
 
 **Eye tracking from other classes**: Head tracking data can be obtained from tracker devices and used in combination with gaze direction.
 
+## Overview
+The Eye tracker interface is summarized in the following diagram:
+
+![Eye tracker interface class](EyeTrackerIntefaceClass.png)
+
 ## Messages
 The gaze position is going to be offered either in 2D or 3D measured in pixel and mm units respectively.
 

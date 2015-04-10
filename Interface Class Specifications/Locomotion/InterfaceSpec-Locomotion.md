@@ -1,6 +1,6 @@
 # Interface Class Specification: Locomotion Devices
 
-> Status: in discussions
+> Status: **in discussions**
 
 ## Device class summary
 This class of devices encompasses a range of systems, many referred to as "omni-directional treadmills" (ODT), designed to provide a walking-type navigation input into a virtual environment, on a *2D ground plane*.
@@ -20,6 +20,11 @@ This class of devices encompasses a range of systems, many referred to as "omni-
 **Locomotion from other classes**: It is trivial to conceptualize an analysis driver converting some other input (for example, analog joysticks) into locomotion, for development or other purposes. Such a transformation may be more sophisticated a research field (consider the ["Silver Surfer" interface using the Wii Balance Board by Wang and Lindeman](http://dx.doi.org/10.1109/3DUI.2011.5759235)) Potentially, a redirected walking implementation might expose the "virtual locomotion" as a locomotion interface, together with an orientation to be used as as an offset.
 
 **Locomotion to other classes**: The design of some virtual environments means that having a "tracked" virtual position of the user in the world may be useful. As such, similar to the `vrpn_AnalogFly` device, an analysis driver could generate a simulated tracker report based on a locomotion interface.
+
+## Overview
+The Locomotion interface is summarized in the following diagram:
+
+![Locomotion interface class](LocomotionInterface.png)
 
 ## Messages
 In general, to work smoothly with the rest of the OSVR system, distance units are meters and velocity units are meters/second.
@@ -44,6 +49,11 @@ To use this interface, an application would likely compute a "delta-position" at
 
 - Is it correct to limit this class to the 2D ground plane?
 - Coordinate system: world coordinates have `x` to the user's right and `z` pointing "backwards". OK to ask for data in this format?
+
+![Coordinates top view](User in World Coordinates - top view.png)
+
+![Coordinates behind view](User in World Coordinates from behind-left.png)
+
 - Conceptualized as an input-only device - correct? Wikipedia's ODT page suggests that whole body inertia forces can be applied, and slope could be displayed. This would be reasonable to add at a later date.
 
 ## Other resources

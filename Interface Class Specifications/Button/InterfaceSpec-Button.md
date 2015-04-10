@@ -23,6 +23,11 @@ Occasionally they are used to report a binary state of some other sort than a bu
 
 **To other classes**: VRPN provides a ButtonFly device that simulates a tracker controlled by button channels.
 
+## Overview
+The Button interface is summarized in the following diagram:
+
+![Button interface class](ButtonInterface.png)
+
 ## Messages
 
 ### Button Change

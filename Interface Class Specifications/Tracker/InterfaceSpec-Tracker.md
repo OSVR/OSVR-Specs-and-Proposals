@@ -8,7 +8,7 @@ This is a basic device class used to expose data that is some way a position, or
 - A number of message types are provided, and some specific "subset" messages are defined (orientation only, for example)
 - The JSON self-descriptor can document further any information on the device.
 
-This class is one of the "classic" VR device classes, and some choices and practices are influenced by VRPN and other existing tracker-interface software. As it describes spatial information, and the reference frames can vary between different sources of data, this is historically one of the more difficult aspects of a VR system to configure. We aim to reduce that difficulty by standardizing on a world coordinate system and units, as well as providing methods in the system for devices to describe their relationship to one another and for these relationships to be described by external code. While not all manual configuration can be eliminated in complex VR systems, simple VR systems such as those considered for consumer virtual reality gaming should be autoconfigurable.
+This class is one of the "classic" VR device classes carried over from VRPN, and some choices and practices are influenced by VRPN and other existing tracker-interface software. As it describes spatial information, and the reference frames can vary between different sources of data, this is historically one of the more difficult aspects of a VR system to configure. We aim to reduce that difficulty by standardizing on a world coordinate system and units, as well as providing methods in the system for devices to describe their relationship to one another and for these relationships to be described by external code. While not all manual configuration can be eliminated in complex VR systems, simple VR systems such as those considered for consumer virtual reality gaming should be autoconfigurable.
 
 A tracker device may expose one or more sensors. Not all sensors may provide the same information, and the number of sensors may be unbounded: for instance, the ART DTrack2 system allows 6DOF tracking of (bounded) registered constellations of optical markers, as well as tracking of an unbounded (over time) number of single optical markers in 3DOF.
 
@@ -30,12 +30,17 @@ See the extensive list of hardware, primarily trackers, (legacy and contemporary
 
 **From other classes**: VRPN provides "AnalogFly" and "ButtonFly" simulated trackers that allow use of analog devices (joysticks, SpaceMouse-type devices, etc) and button devices (gamepad D-Pads, etc) to simulate trackers. Other sensing devices (cameras, etc) might also be analyzed by some algorithm to produce tracking data.
 
+## Overview
+The Button interface is summarized in the following diagram:
+
+![Tracker interface class](TrackerInterface.png)
+
 ## Messages
 When tracker messages reach the application, they should be in the global coordinate system. If some other coordinate  system applies, a default transformation should be supplied in the JSON descriptor, and/or configured (for instance, if a tracker origin is attached to another tracked object such as an HMD).
 
 Devices should only report what they observe, at least on their primary device name: there is no need to compute the derivatives, or add pose integration in the driver. (Of course, if a device embeds sensor fusion, reporting that output is proper.) Additionally, each sensor should only report one of the message types for each "level" (pose, velocity, acceleration): the message that is the closest match to the device observation. 
 
-Note that because of the VRPN core, the so-called "subset" messages (reporting less than 6DOF) are embedded in a full 6DOF VRPN message (with missing components zero or identity) on the wire for backward compatibility. This does not affect native OSVR clients or OSVR game engine integrations, as the client library has the descriptor data to determine what portions of the message are real data.
+Note that becaused of the VRPN core, the so-called "subset" messages (reporting less than 6DOF) are embedded in a full 6DOF VRPN message (with missing components zero or identity) on the wire for backward compatibility. This does not affect native OSVR clients or OSVR game engine integrations, as the client library has the descriptor data to determine what portions of the message are real data.
 
 With respect to subset messages, this document is written with the device driver author primarily in mind. Client applications can access full or subset data as available, and full reports also trigger subset callbacks/populate subset data.
 

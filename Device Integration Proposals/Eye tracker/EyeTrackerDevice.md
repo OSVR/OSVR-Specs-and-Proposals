@@ -4,8 +4,10 @@
 
 > Status: in discussions
 
-Thank you for your interest in connecting with the OSVR ecosystem! This document lays out a proposed strategy for making your device functionality available in OSVR, including how to factor it into the generic device interface classes.
+This document lays out a proposed strategy for making the functionality of an eye tracker device available in OSVR, including how to factor it into the generic device interface classes.
 
+## Overview
+![Generic binocular eye tracker](EyeTrackerDevice.png)
 
 ## Configuration/Instantiation
 We recommend that your plugin auto-configure instances of your device, one for each eye tracker connected to the computer including some unique identifer and the vendor name, such as `SMI1`, which would result in a full device path (including the plugin name) of something similar to `/com_SMI/SMI1`. Alternately, if your configuration tool assigns unique user-facing names to each device, that could be used in place of the unique numeric ID.
