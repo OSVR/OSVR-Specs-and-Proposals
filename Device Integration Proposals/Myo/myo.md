@@ -1,11 +1,15 @@
 # OSVR Device Integration and Factoring Proposal: Thalmic Myo
 
 > Prepared by Sensics, Inc. on 11-February-2015
+> Updated 10-Apr-2015
 
 > Status: in discussions
 
 Thank you for your interest in connecting with the OSVR ecosystem! This document lays out a proposed strategy for making your device functionality available in OSVR, including how to factor it into the generic device interface classes.
 
+
+## Overview
+![Thalmic Myo Device](ThalmicMyo.png)
 
 ## Configuration/Instantiation
 We recommend that your plugin auto-configure instances of your device, one for each Myo connected to the computer. Since each unit has a unique identifier, we recommend using this ID as a part of the device name, as in `Myo12345`, which would result in a full device path (including the plugin name) of something similar to `/com_thalmic_myo/Myo12345`. Alternately, if your configuration tool assigns unique user-facing names to each device, that could be used in place of the unique numeric ID.

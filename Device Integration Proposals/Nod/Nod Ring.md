@@ -1,11 +1,14 @@
 # OSVR Device Integration and Factoring Proposal: Nod Ring
 
-> Prepared by Sensics, Inc. on 4-February-2015
+> Prepared by Sensics, Inc. Last modification 10-Apr-2015
 
 > Status: in discussions
 
-Thank you for your interest in connecting with the OSVR ecosystem! This document lays out a proposed strategy for making your device functionality available in OSVR, including how to factor it into the generic device interface classes.
+This document lays out a proposed strategy for making a Nod Ring device functionality available in OSVR, including how to factor it into the generic device interface classes.
 
+
+## Overview
+![Nod ring Device](NodRing.png)
 
 ## Configuration/Instantiation
 We recommend that your plugin auto-configure instances of your device, one for each Nod Ring connected to the computer. Since each unit has a unique identifier, we recommend using this ID as a part of the device name, as in `Ring12345`, which would result in a full device path (including the plugin name) of something similar to `/com_nod_nodring/Ring12345`. Alternately, if your configuration tool assigns unique user-facing names to each device, that could be used in place of the unique numeric ID.
@@ -45,6 +48,9 @@ OSVR is designed from the ground-up to be cross-platform, from multiple desktop 
 Presently, our largest user community is on Windows, so a functional plugin there is likely of first priority. However, we recommend taking steps (such as use of CMake) that will make it easy to later add support on other platforms.
 
 If your SDK varies substantially between platforms, you may need to use different code on each platform. We'd encourage you to keep as much code, including the plugin name and JSON descriptors, common between all platforms.
+
+## Open Questions
+- **Q**: Need to define names for each of the 5 buttons
 
 ## Collaboration
 As your device uses existing interface classes, we are confident that your development experience should be smooth. However, to aid us in our ability to support you, if your plugin is developed in a private GitHub repository, we suggest adding a team with read access to that repository, with the following Sensics staff added to that team:
