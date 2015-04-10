@@ -44,7 +44,6 @@
       </data>
       <graph edgedefault="directed" id="n0:">
         <node id="n0::n0">
-          <data key="d5"/>
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="84.0" width="191.0" x="138.0" y="325.0"/>
@@ -66,10 +65,9 @@
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="84.0" width="191.0" x="359.0" y="325.0"/>
-              <y:Fill hasColor="false" transparent="false"/>
+              <y:Fill color="#FF0000" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" modelName="custom" textColor="#000000" visible="true" width="96.044921875" x="47.4775390625" y="25.298828125">Gesture interface
-TBD<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="custom" textColor="#000000" visible="true" width="96.044921875" x="47.4775390625" y="32.6494140625">Gesture interface<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
