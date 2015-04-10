@@ -6,6 +6,8 @@
 
 Thank you for your involvement in the OSVR ecosystem! This document lays out a proposed strategy for making your device functionality available in OSVR, including how to factor it into the generic device interface classes.
 
+## Overview
+![Leap Motion Device](LeapMotion.png)
 
 ## Configuration/Instantiation
 We recommend that your plugin auto-detect the presence of the Leap Motion sensor, instantiating an object responsible for transmitting data into OSVR. Due to the fact that a single controller/sensor can track a changing number of complex objects (hands and arms), we suggest that this single object take the step of registering more than one "device name" in OSVR. The following fully-qualified (that is, including the plugin name) device names are suggested:
@@ -60,12 +62,22 @@ On your end, please let us know who on your team will be working on the plugin, 
 - Ryan Pavlik - GitHub username `rpavlik`
 
 ## Open Issues
+- **Q**: Reporting confidence/uncertainty in the tracked data
+- **Q**: Handling entry/exit from field of view beyond stopping reporting
+	- **Q**: Related: handling the identity of a tracked arm being permanently lost after it moves out of view
+- **Q**: Handling more than two hands
+- **Q**: Tool tracking
+normal vector. 
+
+## Questions already answered
 - HMD mode
-	- Can/should it be manually switched on?
-	- Does it perform the appropriate transformation to maintain the same "global" coordinate system?
-- Reporting confidence/uncertainty in the tracked data
-- Does it make sense to provide the distortion correction shader in JSON?
-- Handling entry/exit from field of view beyond stopping reporting
-	- Related: handling the identity of a tracked arm being permanently lost after it moves out of view
-- Handling more than two hands
-- Tool tracking
+	- **Q**: Can/should it be manually switched on?
+	- **A**: As current plans with OSVR only involve the Leap mounted to the headset, this is forced to true for now.
+	- **Q**: Does it perform the appropriate transformation to maintain the same "global" coordinate system?
+	- **A**: Using global space would be different from current Leap API, and make the Leap interface dependent on the head tracker data, and move away from the model where the Leap HandController is a child of the head class. It's possible to do these transformations, but it would complicate things more so than just keeping the hands tracked in coordinates relative to the device. Device returns the same data as if HMD mode were not on
+
+- **Q**:Does it make sense to provide the distortion correction shader in JSON?
+- **A**: This shader would be in HLSL for Unreal 4, ShaderLab for Unity, and GLSL for OpenGL apps. It may make more sense to provide shaders as SDK examples rather than providing JSON on an interface.
+
+- **Q**:Does the palm need special treatment?
+- **A**: Unlike a finger bone, the palm has a 
