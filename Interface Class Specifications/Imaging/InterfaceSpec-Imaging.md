@@ -13,7 +13,7 @@ The Imaging interface class builds on OpenCV and its type description and suppor
 	
 
 ### Relation to other classes
-**Factoring**: The closest defined class to Imaging would be Analog, but generally the arrangement of data (2D) and quantity of data points make the distinction clear. While depth camera data can be sent with Imaging, it's not designed for general use with point clouds. (Actually, the closest thing in VRPN to imaging is the vrpn_Imager, and the design discussion below is coming closer to wanting the full generality it was designed to support, incuding cameras with one channel as float (depth) and others as 8-bit color. It would need to be augmented to avoid sending images across the wire if there was no receiver and we'd need to reconsider if we want to open Pandora's box of mixed-mode images (3 color channels encoded in an interleaved fashion). See <http://vrpn.github.io/assets/vrpn_Imager_talk_june_2008.ppt> for more info.)
+**Factoring**: The closest defined class to Imaging would be Analog, but generally the arrangement of data (2D) and quantity of data points make the distinction clear. While depth camera data can be sent with Imaging, it's not designed for general use with point clouds. (Actually, the closest thing in VRPN to the OSVR imaging support is the `vrpn_Imager`. See *Open Issues* for more.)
 
 **From other instances of the same interface**: Filters could be applied to imaging data, though setting up an extended data flow pipeline of filters individually in OSVR is not a use case optimized for.
 
@@ -43,3 +43,4 @@ In an implementation detail, the "wire" format for these messages is the origina
 
 - Finishing implementation of multi-byte channels
 - Shared memory local interprocess transport
+- Relationship with `vrpn_Imager`: right now, intentionally distinct (imager vs imaging, and using OpenCV data types more or less natively). The design discussion above is coming closer to wanting the full generality it was designed to support, incuding cameras with one channel as float (depth) and others as 8-bit color. It would need to be augmented to avoid sending images across the wire if there was no receiver and we'd need to reconsider if we want to open Pandora's box of mixed-mode images (3 color channels encoded in an interleaved fashion). See <http://vrpn.github.io/assets/vrpn_Imager_talk_june_2008.ppt> for more info.
