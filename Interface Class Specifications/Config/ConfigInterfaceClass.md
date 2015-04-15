@@ -13,6 +13,7 @@ The config class interface is to be implemented with every device.  It provides:
 
 ##Services
 -- Initialize device (Russ: This seems like something that the server should do at start-up and when it detects a failure.  Not sure when the client would do this, but we could have a "reset" so that if the client noticed strange behavior they could try it.)
+
 -- Get version information (e.g. firmware, serial number)  (Russ: One job of the OSVR device layer is to hide the need to know this from the client code by factoring and then mapping whatever decisions need to be made based on this into the API.  I view having the need to send this information to the client directly as a failure to appropriately factor and map the devices.)
 
 ##Open questions
