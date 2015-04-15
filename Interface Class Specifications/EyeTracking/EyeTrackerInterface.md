@@ -12,6 +12,26 @@ It seems to me that the discussion below has not completely finished factoring t
 
 I see the appeal in trying to nest the objects as binocular { monocular left, monocular right }, but doing this at the data level rapidly gets us into the soup of a different driver for each device: phantom { threevec force, threevec position, fourvec orientation, button buttons[] }.  I really like the idea of keeping the data as raw as possible but building the semantics into the Json file, which tells which button corresponds to the left-eye blink and so forth.  I think this gives us the best of both worlds -- orthogonal decomposition of data and semantic hierarchy.
 
+    OSVR_ETrackerInstance1 : public vrpn_Vector, public vrpn_Analog, public vrpn_Button;
+    OSVR_ETrackerInstance2 : public vrpn_Vector, public vrpn_Analog, public OSVR_Imager;
+
+### Calibration
+
+Calibration is complicated by the fact that each device seems to have its own special instance.  For the 3rdTech ceiling tracker and other devices, we ended up using custom message types for each device, which is not very satisfying.  It is interesting to think about whether there are things common to calibration across all device types that could be pulled out into a common interface; perhaps "start calibration" and "calibration finished".  Then some eye trackers and some other devices would expose the calibration interface.
+
+### Losing pupils
+
+This is an issue that happens with the optical tracking systems as markers come into and out of view.  We'll have the same thing on the video-based HDK tracking system.  The current solution is to basically stop sending reports when you can't see the thing.  This is an implicit solution.  You can tell (after 3 seconds) that the problem is due to a connection being lost to the device rather than lost pupils, but this is still not very explicit.  I don't have a good solution to this.
+
+### User profiles
+
+I think this belongs in the Json hierarchy, rather than in the devices themselves.
+
+### Other open issues
+- Pupil size looks like an analog.
+- Pupil aspect ratio looks like an analog.
+- Duration of fixation could be determined by watching the fixation start/stop events on the client and doing the math.
+
 ## Device class summary
 The eye tracker devices provide detailed information about one or both eyes movement. It includes tracking gaze direction using 2D or 3D coordinates, detecting blink events and others (eye fixation, saccades, etc.). Tracker can support binocular and monocular modes. For binocular mode, it will report data based on sensors for both eyes. In monocular mode, only one sensor will provide data. 
 The tracker plugin can choose to implement both types at the same time, so that a binocular tracker would also have two monocular trackers.
