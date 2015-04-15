@@ -5,6 +5,8 @@
 ## Device class summary
 This class of devices encompasses a range of systems, many referred to as "omni-directional treadmills" (ODT), designed to provide a walking-type navigation input into a virtual environment, on a *2D ground plane*.
 
+Russ: This sounds exactly like a tracker that never reports going off the Z=0 plane.  The concept of locomotion may be better thought of in terms of the transformation hierearchy that lives within OSVR and which is ultimately interfaced to the application's transformation hierarchy.  The two eye positions are used to specify the viewpoint.  The body center is used to specify the interaction with the world (whether from the user walking physically or locomoting using this interface).  The vrpn_Tracker_AnalogFly can be configured to do exactly this 2D motion based on analog inputs.  I wouldn't recommend adding another whole message type that is just a subset of tracker and that otherwise behaves the same way as a tracker; devices will now have to accept two message types that basically mean the same thing.  One way to implement something like this would be a constrain filter that projects onto a plane (or onto the local appropraite ground height).
+
 ### Examples
 - Cyberith Virtualizer: <http://cyberith.com/product/>
 - Virtuix Omni: <http://www.virtuix.com/products/>
@@ -12,7 +14,7 @@ This class of devices encompasses a range of systems, many referred to as "omni-
 	- WizDish: <http://www.wizdish.com/>
 	- Infinadeck (active ODT): <http://www.infinadeck.com/>
 	- Virtusphere (human hamster ball): <http://www.virtusphere.com/>
-	
+
 
 ### Relation to other classes
 **Factoring**: A number of ODTs feature additional features (body orientation, jump/crouch sensing, etc) that are best factored into other device classes, specifically Tracker. The locomotion device class is concerned solely with reporting of whole-body movement intention on the ground.
