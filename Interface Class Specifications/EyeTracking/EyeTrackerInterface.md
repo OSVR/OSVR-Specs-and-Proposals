@@ -24,33 +24,55 @@ The Eye tracker interface is summarized in the following diagram:
 ## Messages
 The gaze position is going to be offered either in 2D or 3D measured in pixel and mm units respectively.
 
-### Gaze Direction
+### Gaze
 #### Data
+##### Gaze Position
 - A 2D vector (screen coordinates) containing the current user's gaze direction, in pixels.
-- A 3D vector (direction vector) containing the current user's gaze direction.
+
+##### Gaze Direction 
+- A 3D vector (position) containing gaze base point of the user's respective eye in 3D device coordinates.
+- A 3D vector (direction vector) containing the normalized gaze direction of the user's respective eye.
 
 #### Rationale
-This allows application how to process gaze input, thus providing flexibility in choice of coordinates for different types of applications. The normalized gaze position will provide normalized 0 - 1 coordinates. By default, we'll use normalized pixels and quaternions for 2D and 3D respectively.
+Allows an application to process gaze input in the most convinient format, thus providing flexibility in choice of coordinates for different types of applications. 
+
 
 ### Blink
 #### Data
 - Boolean event that will signal whether the blink had occurred 
 
 #### Rationale
-Certain trackers provide support for detecting blink events, therefore this feature is optional. Calibration can initially be vendor-specific.
+Certain trackers provide support for detecting blink events, therefore this feature is optional. 
 
 ### Calibration
 #### Rationale
-Allows the plugin to start calibration process and detect when calibration is done.
+Allows the plugin to start calibration process and detect when calibration is done. Calibration can initially be vendor-specific.
 
 An application would likely compute a "delta-position" at its convenience, rather than explicitly using the position directly. Devices could report this themselves (particularly in active devices where this can be directly measured), or an analysis plugin could perform the integration to add these messages to 
+
+### Physiognomy 
+#### Data
+##### IPD
+- float containing the distance betweeen the pupil centers in mm
+
+##### IOD
+- float containing the distance betweeen the eye-ball centers
+
+##### Eye relief
+- float containing the distance betweeen the pupil center and the HMD's lens
+
+##### Pupil size
+- float containing the diameter of the pupil in mm
+	
+
+#### Rationale
+In order to allow for personalized rendering/ display calibration additional information about the users physiognomy are required.
 
 ## Open issues
 
 - There are additional data that can be retrieved from the tracker, that may be useful in applications which include:
-	- Pupil size
 	- Pupil Aspect Ratio
-	- Duration of fixation
+	- Duration + location of fixation
 	- Loading/saving user profile, if necessary
 - When the tracker "loses" pupils (For example, user takes off the HMD), should a special event be generated to let application know of situation?
 
