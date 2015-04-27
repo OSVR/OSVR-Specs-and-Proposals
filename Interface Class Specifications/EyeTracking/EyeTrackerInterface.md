@@ -13,8 +13,8 @@ The tracker plugin can choose to implement both types at the same time, so that 
 
 ### Relation to other classes
 **Factoring**: An eye tracker may contain additional features (For example, streaming eye images) that are best factored into other devices classes, such as Imaging. The eye tracker device class is only concerned with reporting gaze direction, detecting blink events, and few additional features(TBD) .
+**Eye tracking from other classes**: Eye tracking algorithms could be created as analysis plugins taking in input from an imaging interface.
 
-**Eye tracking from other classes**: Head tracking data can be obtained from tracker devices and used in combination with gaze direction.
 
 ## Overview
 The Eye tracker interface is summarized in the following diagram:
