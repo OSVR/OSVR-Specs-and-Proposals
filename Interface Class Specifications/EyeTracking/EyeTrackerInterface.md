@@ -75,6 +75,7 @@ This message indicates that the RPC Calibration call is completed and the device
 	- Duration + location of fixation
 	- Loading/saving user profile, if necessary
 - When the tracker "loses" pupils (For example, user takes off the HMD), should a special event be generated to let application know of situation?
+- Do all eye trackers that report a 3D gaze direction also provide a point as well?
 
 ## Other resources
 - <http://en.wikipedia.org/wiki/Eye_tracking>
