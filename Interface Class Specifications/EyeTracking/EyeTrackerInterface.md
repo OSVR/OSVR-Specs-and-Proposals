@@ -12,7 +12,10 @@ The tracker plugin can choose to implement both types at the same time, so that 
 	
 
 ### Relation to other classes
-**Factoring**: An eye tracker may contain additional features (For example, streaming eye images) that are best factored into other devices classes, such as Imaging. The eye tracker device class is only concerned with reporting gaze direction, detecting blink events, and few additional features(TBD) .
+**Factoring**: An eye tracker may contain additional features (for example, streaming eye images) that are best factored into other devices classes, such as Imaging. The eye tracker device interface class is only concerned with reporting gaze and blink data. This means that physiognomy data (such as pupil size, pupil aspect ratio, IPD, IOD, eye relief) should be reported in other interface classes: in particular, as analog channels, with meters as the distance units. The JSON device descriptor provides the ability to describe the semantic meaning of these channels.
+
+An eye tracker that provides 3D eye tracking may also want to report a tracker sensor for each eye. While the data described below as a point and a direction does not fully constrain a 6DOF rigid pose, it can be converted into one by choosing -Z as gaze-forward and assuming Y is up (that the eyes are not rotating in their sockets). This is not an opthamologically-valid assumption but it is valid for many other uses of eye tracking.
+
 **Eye tracking from other classes**: Eye tracking algorithms could be created as analysis plugins taking in input from an imaging interface.
 
 
@@ -43,39 +46,32 @@ Describes the user's gaze as a ray. This data can be reported in a tracker senso
 
 ### Blink
 #### Data
-- Boolean event that will signal whether the blink had occurred 
+- Sensor ID
+- Event only, no additional data.
 
 #### Rationale
-Certain trackers provide support for detecting blink events, therefore this feature is optional. 
+This is an event that can be reported, but is not required.
 
-### Calibration
-#### Rationale
-Allows the plugin to start calibration process and detect when calibration is done. Calibration can initially be vendor-specific.
-
-An application would likely compute a "delta-position" at its convenience, rather than explicitly using the position directly. Devices could report this themselves (particularly in active devices where this can be directly measured), or an analysis plugin could perform the integration to add these messages to 
-
-### Physiognomy 
+### Calibrate
 #### Data
-##### IPD
-- float containing the distance betweeen the pupil centers in mm
-
-##### IOD
-- float containing the distance betweeen the eye-ball centers
-
-##### Eye relief
-- float containing the distance betweeen the pupil center and the HMD's lens
-
-##### Pupil size
-- float containing the diameter of the pupil in mm
-	
+- None, or perhaps a request ID
 
 #### Rationale
-In order to allow for personalized rendering/ display calibration additional information about the users physiognomy are required.
+This is effectively a remote procedure call from an application or server to trigger vendor-specific calibration processes. Unlike the other messages, this is sent by a client and received by the plugin.
+
+This message will eventually be subsumed into a device control/configuration interface suitable for multiple different interface classes, along with policy data in the JSON descriptor indicating when calibration must be performed.
+
+### Calibrate Done
+#### Data
+- None, or request ID from the corresponding calibration request.
+
+#### Rationale
+This message indicates that the RPC Calibration call is completed and the device is ready to use.
+
 
 ## Open issues
 
 - There are additional data that can be retrieved from the tracker, that may be useful in applications which include:
-	- Pupil Aspect Ratio
 	- Duration + location of fixation
 	- Loading/saving user profile, if necessary
 - When the tracker "loses" pupils (For example, user takes off the HMD), should a special event be generated to let application know of situation?
