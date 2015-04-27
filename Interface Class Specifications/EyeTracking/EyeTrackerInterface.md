@@ -22,20 +22,24 @@ The Eye tracker interface is summarized in the following diagram:
 ![Eye tracker interface class](EyeTrackerIntefaceClass.png)
 
 ## Messages
-The gaze position is going to be offered either in 2D or 3D measured in pixel and mm units respectively.
+An eye tracker may report Gaze Position, Gaze Direction, or both - this should be described in the device descriptor data. Reporting at least one of those messages is required.
 
-### Gaze
+### Gaze Position (2D)
 #### Data
-##### Gaze Position
-- A 2D vector (screen coordinates) containing the current user's gaze direction, in pixels.
+- Sensor ID
+- A 2D vector containing the user's gaze/point of regard, in normalized display coordinates (each component in the range [0, 1], with the display effectively forming that portion of the X-Y plane in the standard OSVR coordinate system).
 
-##### Gaze Direction 
+#### Rationale
+An application may wish to draw directly on the point of the screen that the user is looking at. This is one class of applications for eye tracking data, and applications using it are unlikely to also want 3D data, or at least handled in the same method.
+
+### Gaze Direction (3D)
+#### Data
+- Sensor ID
 - A 3D vector (position) containing gaze base point of the user's respective eye in 3D device coordinates.
 - A 3D vector (direction vector) containing the normalized gaze direction of the user's respective eye.
 
 #### Rationale
-Allows an application to process gaze input in the most convinient format, thus providing flexibility in choice of coordinates for different types of applications. 
-
+Describes the user's gaze as a ray. This data can be reported in a tracker sensor in addition to this eye-tracker-specific message.
 
 ### Blink
 #### Data
