@@ -1,27 +1,97 @@
-> Status: early draft, last updated 10-Apr-2015
+# Interface Class Description: Gesture
 
-This is a work area for gesture interface class specifications.
+> Status: In Discussions
 
-A gesture interface communicates high-level gestures such as "fist closed", "thumb up", "pinch", "zoom", "swipe" and so forth.
+## Device class summary
+Gesture is a form of non-verbal communication in which bodily actions communicate particular messages, which
+includes movements of hand, head, and other parts of the body. There is a range of devices that are able to analyze body movements to detect gestures. It is achieved by tracking the body part movement over certain period of time and analyzing its path, velocity/acceleration, rotation, or measuring electrical activity from muscles to detect poses (gestures). This is usually accomplished with cameras, infrared LEDs, eletrical current monitors or EMG sensors that supply information for analysis and detection of gestures.
 
-Several type of devices can detect gestures. These include:
+### Examples
+- Leap Motion : <http://leapmotion.com>
+- Thalmic Labs MYO armband : <http://halmic.com> 
+- Nod Ring : <http://nod.com>
+- Microsoft Kinect : <https://microsoft.com/en-us/kinectforwindows/>
+- Windows Gestures : <https://msdn.microsoft.com/en-us/library/windows/desktop/dd940543(v=vs.85).aspx>
+- Android Gestures : <https://developer.android.com/training/gestures/index.html>
+	
 
-- Hand and finger trackers such as Softkinetic
-- Thalmic myo
-- Nod ring
+### Relation to other classes
+**Factoring**: A gesture can be considered as an action that progresses over period of time. During a gesture a number of attributes correspond to it that will make it up such as joint type (hand, head, etc.), orientation, position, acceleration and velocity. Together these attributes logically make up an gesture entity that provides meaningful information about user's body part(s) pose. Gestures can be semantically separated into two types : discrete and continuous. Discrete gesture is a type of gesture that begins and ends at the same time (immediate) such as Single Tap. Continuous gestures occur over a period of time which includes Swiping or Pinching. 
 
-Gestures could be hand or finger gestures, but could also be head gestures such as "yes" or "no". Two-handed gestures are also possible.
+**From other classes**: To determine what type of gesture is occurring it is necessary to collect
+positional and motion data for body parts (joints), therefore it is necessary to use Tracker interface, which provides necessary tracking data.  
 
-At face value, this is a simple interface as it generates just a gesture event.
+## Messages
+For majority of the cases, it would be sufficient to provide pre-set gestures such as Swipe, Scroll, etc. However a number of devices support custom gestures that will require raw gesture information (Tracker data). 
+One device may be tracking multiple body parts (both hands or entire body) therefore each sensor should be reporting its own gesture data, thus a single device can report multiple gestures.
 
-The question becomes, how are these gestures defined. are they:
 
-- Enumerated gestures with a placeholder for user-defined or vendor-defined gestures
-- Strings containing the names of gestures (or integer-mapped strings like VRPN uses to make it rapid to transmit and parse while providing generality of naming).
-- A signals/slots mechanism like Qt.
-- All gesture objects have pure virtual methods that know how to read themselves from and write themselves to a file interface, so that they can pack and unpack anything.  One step back from full generality would have them read themselves from and write themselves to Json and then transport the Json as the parameters.
+### Gesture metadata
+#### Data
+- Gesture ID
+- State
+- Joint ID
+- Sensor number
+
+#### Rationale
+- There is a pre-set list of gestures that are common to most devices such as Swipe, Scroll, Singe Tap, etc. This list can be expanded as needed. Therefore gestures will be enumerated. Custom gesture will have a reserved ID such as 0 to indicate that a number of special attributes are available (see below).
+- Both types of gestures (discrete and continuous) require a state (begin/end), corresponding to 1 and 0 respectively, that will indicate whether or not the gesture has completed, (although discrete automatically comes with an end state).
+- The applications/games will need to determine which body part is performing the gesture. Since different devices are tracking different joints and therefore will have different ID for each joint, we will enumerate each body part to include every required joint. Enumerating the joints that will allow the specify from which body part the gesture is occurring.
+
+	#####Gesture ID
+Initially we have identified the following list of pre-set gestures : 
+
+	- Swipe (left/right)
+	- Scroll (up/down)
+	- Single / Double Tap
+	- Pinch/Spread fingers (zoom in/out )
+	- Circle (clockwise / counterclockwise rotation)
+	- Long press
+	- Rotate
+
+	#####Joint ID
+In order to indicate which body part is performing the gesture, we defined the following list of body parts
+
+	- Left / Right hand
+	- Left / Right thumb
+	- Left / Right elbow
+	- Left / Right shoulder
+	- Head
+	- Left / Right knee
+	- Left / Right hip
+	- Left / Right foot
+	- Left / Right ankle
+	- Spine base
+	- Spine mid
+	- Spine shoulder 
+
+### Pose
+#### Data
+- Position (3D vector)
+- Orientation
+
+#### Rationale
+-For custom gestures positional data allows to compare the path of the gesture to detect new types of gestures
+
+### Motion (Velocity and Acceleration)
+#### Data
+- Linear velocity (m/s) (3D vector)
+- Incremental rotation per delta time (rotational velocity)
+- Delta time for incremental rotation (seconds)
+- Linear acceleration, exclusive of gravity (m/s^2) (3D vector)
+- Increment in incremental rotation per delta time (unit/normalized quaternion)
+- Delta time for rotation (seconds)
+
+#### Rationale
+-For custom gestures motion data allows to determine how quickly the gesture had occurred to combine motion and position data and detect new types of gestures
+
+
+## Open issues
+- Expanding a list of pre-set gestures
 
 ## Overview
+
+The gesture interface is summarized in the following diagram
 
 ![Gesture interface](GestureInterface.png)
 
