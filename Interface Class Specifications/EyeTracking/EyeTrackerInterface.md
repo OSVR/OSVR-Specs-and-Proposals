@@ -42,9 +42,12 @@ The tracker plugin can choose to implement both types at the same time, so that 
 	
 
 ### Relation to other classes
-**Factoring**: An eye tracker may contain additional features (For example, streaming eye images) that are best factored into other devices classes, such as Imaging. The eye tracker device class is only concerned with reporting gaze direction, detecting blink events, and few additional features(TBD) .
+**Factoring**: An eye tracker may contain additional features (for example, streaming eye images) that are best factored into other devices classes, such as Imaging. The eye tracker device interface class is only concerned with reporting gaze and blink data. This means that physiognomy data (such as pupil size, pupil aspect ratio, IPD, IOD, eye relief) should be reported in other interface classes: in particular, as analog channels, with meters as the distance units. The JSON device descriptor provides the ability to describe the semantic meaning of these channels.
 
-**Eye tracking from other classes**: Head tracking data can be obtained from tracker devices and used in combination with gaze direction.
+An eye tracker that provides 3D eye tracking may also want to report a tracker sensor for each eye. While the data described below as a point and a direction does not fully constrain a 6DOF rigid pose, it can be converted into one by choosing -Z as gaze-forward and assuming Y is up (that the eyes are not rotating in their sockets). This is not an opthamologically-valid assumption but it is valid for many other uses of eye tracking.
+
+**Eye tracking from other classes**: Eye tracking algorithms could be created as analysis plugins taking in input from an imaging interface.
+
 
 ## Overview
 The Eye tracker interface is summarized in the following diagram:
@@ -52,37 +55,57 @@ The Eye tracker interface is summarized in the following diagram:
 ![Eye tracker interface class](EyeTrackerIntefaceClass.png)
 
 ## Messages
-The gaze position is going to be offered either in 2D or 3D measured in pixel and mm units respectively.
+An eye tracker may report Gaze Position, Gaze Direction, or both - this should be described in the device descriptor data. Reporting at least one of those messages is required.
 
-### Gaze Direction
+### Gaze Position (2D)
 #### Data
-- A 2D vector (screen coordinates) containing the current user's gaze direction, in pixels.
-- A 3D vector (direction vector) containing the current user's gaze direction.
+- Sensor ID
+- A 2D vector containing the user's gaze/point of regard, in normalized display coordinates (each component in the range [0, 1], with the display effectively forming that portion of the X-Y plane in the standard OSVR coordinate system).
 
 #### Rationale
-This allows application how to process gaze input, thus providing flexibility in choice of coordinates for different types of applications. The normalized gaze position will provide normalized 0 - 1 coordinates. By default, we'll use normalized pixels and quaternions for 2D and 3D respectively.
+An application may wish to draw directly on the point of the screen that the user is looking at. This is one class of applications for eye tracking data, and applications using it are unlikely to also want 3D data, or at least handled in the same method.
+
+### Gaze Direction (3D)
+#### Data
+- Sensor ID
+- A 3D vector (position) containing gaze base point of the user's respective eye in 3D device coordinates.
+- A 3D vector (direction vector) containing the normalized gaze direction of the user's respective eye.
+
+#### Rationale
+Describes the user's gaze as a ray. This data can be reported in a tracker sensor in addition to this eye-tracker-specific message.
 
 ### Blink
 #### Data
-- Boolean event that will signal whether the blink had occurred 
+- Sensor ID
+- Event only, no additional data.
 
 #### Rationale
-Certain trackers provide support for detecting blink events, therefore this feature is optional. Calibration can initially be vendor-specific.
+This is an event that can be reported, but is not required.
 
-### Calibration
+### Calibrate
+#### Data
+- None, or perhaps a request ID
+
 #### Rationale
-Allows the plugin to start calibration process and detect when calibration is done.
+This is effectively a remote procedure call from an application or server to trigger vendor-specific calibration processes. Unlike the other messages, this is sent by a client and received by the plugin.
 
-An application would likely compute a "delta-position" at its convenience, rather than explicitly using the position directly. Devices could report this themselves (particularly in active devices where this can be directly measured), or an analysis plugin could perform the integration to add these messages to 
+This message will eventually be subsumed into a device control/configuration interface suitable for multiple different interface classes, along with policy data in the JSON descriptor indicating when calibration must be performed.
+
+### Calibrate Done
+#### Data
+- None, or request ID from the corresponding calibration request.
+
+#### Rationale
+This message indicates that the RPC Calibration call is completed and the device is ready to use.
+
 
 ## Open issues
 
 - There are additional data that can be retrieved from the tracker, that may be useful in applications which include:
-	- Pupil size
-	- Pupil Aspect Ratio
-	- Duration of fixation
+	- Duration + location of fixation
 	- Loading/saving user profile, if necessary
 - When the tracker "loses" pupils (For example, user takes off the HMD), should a special event be generated to let application know of situation?
+- Do all eye trackers that report a 3D gaze direction also provide a point as well?
 
 ## Other resources
 - <http://en.wikipedia.org/wiki/Eye_tracking>
