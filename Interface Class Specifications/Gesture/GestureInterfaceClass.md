@@ -49,6 +49,15 @@ Initially we have identified the following list of pre-set gestures :
 	- Long press
 	- Rotate
 
+---
+Guillaume comments : 
+- Also open/close hand
+- Please consider the following article about common gestures
+"User-defined gestures for augmented reality" by  	Thammathip Piumsomboon, Adrian Clark,  	Mark Billinghurst,  	Andy Cockburn
+This article is a solid basis about gestures classification
+---
+
+
 	#####Joint ID
 In order to indicate which body part is performing the gesture, we defined the following list of body parts
 
@@ -65,10 +74,22 @@ In order to indicate which body part is performing the gesture, we defined the f
 	- Spine mid
 	- Spine shoulder 
 
+--- 
+Guillaume comments :
+	- missing handtips
+	- missing hands fingers
+	- maybe using h-anim as a norm to represent skeletons, or choose a subset/simplify it
+	- should move that enumeration to Skeleton interface specifications
+---
+
 ### Pose
 #### Data
 - Position (3D vector)
 - Orientation
+
+
+Guillaume
+	also confidence in a joint data, that information is quite common in SDKs delivered with depth sensors
 
 #### Rationale
 -For custom gestures positional data allows to compare the path of the gesture to detect new types of gestures
