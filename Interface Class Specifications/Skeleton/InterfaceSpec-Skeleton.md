@@ -115,7 +115,7 @@ The base-relative coordinate systems for a humanoid are proposed to be the follo
 - Right-handed coordinate system
 - Position at the joint/base of the bone
 - *y* axis along the bone, pointing in the direction of the bone
-- *z* axis coming out the front of the humanoid in a "T-pose"
+- *z* axis coming out the front of the humanoid in a "T-pose" (more technically, a T-pose but standing "en pointe" for the feet - that is, *z* coming out the top of the feet)
 
 This overall diagram shows some sample joint coordinate systems following this convention. (As always, RGB correspond to XYZ.)
 
