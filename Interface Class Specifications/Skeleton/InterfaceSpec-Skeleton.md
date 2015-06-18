@@ -137,9 +137,22 @@ A plugin providing skeleton data shall report all of its tracker joints as descr
 - Kinect data:
 	- FAAST - closed-source VRPN server, uses either OpenNI or Kinect for Windows <http://projects.ict.usc.edu/mxr/faast/>
 	- KVR - Open-source VRPN server, uses Kinect for Windows API, uses compatible "sensor" numbering to FAAST <https://github.com/vancegroup/KVR>
-- David Nahon (3DS/Dassault) proposal for whole-body skeleton tracking convention: note that CC BY-SA (without clarification as to how far that extends) is claimed <http://fr.slideshare.net/iVEvangelist/v6-unified-skeleton-for-real-time-mocap>
+- David Nahon (3DS/Dassault) proposal for whole-body skeleton tracking convention: note that CC BY-SA (without clarification as to how far that extends) is claimed <http://www.slideshare.net/iVEvangelist/v6-unified-skeleton-for-real-time-mocap>
 - VRPN skeleton proposal:
 	- Full condensed proposal: <http://lists.unc.edu/read/messages?id=6607009>
 	- Issue tracker with more elaborated description: <https://git.cs.unc.edu/redmine/vrpn/issues/71>
 	- VRPN skeleton/glove discussion on mailing list <http://lists.unc.edu/read/messages?id=6597925>
 - ISO standard based on Jack: <http://en.wikipedia.org/wiki/Humanoid_animation>
+
+## References
+
+- ISO standard H-ANIM (Humanoid Animation) - ISO/IEC 19774 Version 2.0 (published in 2005) - Implemented in X3D and other formats
+	- Current working group homepage: <http://www.web3d.org/working-groups/humanoid-animation-h-anim>
+	- Examples and other links: <http://www.web3d.org/x3d/content/examples/Basic/HumanoidAnimation/>
+	- Magnenat-Thalmann, N., & Thalmann, D. (Eds.). (2004). H-Anim Joint and Segment Topology. In *Handbook of Virtual Humans* (pp. 393–395). <http://doi.org/10.1002/0470023198.app2>
+
+- Meredith, M., Maddock, S., & Road, P. (2001). Motion Capture File Formats Explained. Motion Capture Stuff, 1–36. http://doi.org/10.1.1.103.2097
+
+- Academic authors:
+
+	- [Nadia Magnenat Thalmann](http://www.miralab.ch//index.php?option=com_content&task=view&id=102&Itemid=245) - [Google Scholar profile](https://scholar.google.com/citations?user=zSucrdMAAAAJ)
