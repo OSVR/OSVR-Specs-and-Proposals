@@ -124,7 +124,7 @@ This overall diagram shows some sample joint coordinate systems following this c
 The following is a closeup of the right hand with select joints shown. (Note that following from the rules, the previous diagram shows that the left hand has the *x* axis pointing down instead of up.)
 ![](osvr_skeleton1.png)
 
-In 3D-capable browsers, you may be able to view an [interactive 3D viewer of this illustration](diagram/osvr_skeleton.html).
+In 3D-capable browsers, you may be able to view (or download then view) an [interactive 3D viewer of this illustration](diagram/osvr_skeleton.html) - click to rotate, middle-click (press the scroll wheel) to translate.
 
 ## Device Plugin Design
 A plugin providing skeleton data shall report all of its tracker joints as described above, then issue a SkeletonComplete message for that skeleton sensor.
