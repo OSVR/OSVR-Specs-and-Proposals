@@ -75,28 +75,28 @@ From the point of view of the device plugin,
 
 Rationale: Substitution of one skeleton for another, in multi-user tracked scenarios
 
-- One Skeleton interface sensor refers to **one or more Tracker interfaces**...
+- One Skeleton interface sensor refers to **sensors from one or more Tracker interfaces** ...
 
 Rationale: Skeletons may be overlaid on existing trackers, but must refer to at least one tracker to provide the data that isn't connectivity or association.
 
-- ...providing **room-space**...
+- ... providing **room-space** ...
 
 (Or tracker-space - some sort of "global" to be contrasted with parent-relative. )
 Rationale: Usability of joint poses by tracker clients as well as skeleton clients for new devices implementing both Tracker and Skeleton at the same time.
 
-- ...**joint**...
+- ... **joint** (and site) ...
 
-Rationale: This provides commonality between skeleton technologies. If marker-based trackers wish to also expose the marker poses, they may, but they are not directly referenced by or required by the skeleton. Similarly, skeleton solutions that adjust reported tracker data to fit a model may choose to report the raw, uncorrected data as additional tracker sensors, but in that case the skeleton should be referring to the adjusted joint tracking sensors
+Rationale: This provides commonality between skeleton technologies. If marker-based trackers wish to also expose the marker poses, they may, but they are not directly referenced by or required by the skeleton. Similarly, skeleton solutions that adjust reported tracker data to fit a model may choose to report the raw, uncorrected data as additional tracker sensors, but in that case the skeleton should be referring to the adjusted joint tracking sensors. Joints are reported, rather than bones, to enhance interoperability by applying the Tracker interface class. From a client usability standpoint, bones may be exposed by computation from the corresponding joints.
 
-- ... **poses** (usually)
+- ... **poses** (usually) ...
 
-Rationale: Generally, full poses are desired, since humans bones are not solids of revolution. However, for certain "leaf joints" or "sites" that are useful and available (such as fingertip), a position-only may be reported given that there is not a child joint and bone orientation can be inferred from the parent joint.
+Rationale: Generally, full poses are desired, since humans bones are not solids of revolution. However, for certain "end sites" that are useful and available (such as fingertip), a position-only may be reported given that there is not a child joint and bone orientation can be inferred from the parent joint.
 
-- with a **standardized coordinate system**.
+- ... with a **standardized coordinate system**.
 
 Rationale: While no single standard coordinate system convention will fit all client applications, consistent input data makes integration easier.
 
-- Following transmission of a skeleton's tracker poses, a **SkeletonComplete message** should be sent for the corresponding skeleton sensor.
+- Following transmission of a skeleton's tracker poses for a single consistent data frame, a **SkeletonComplete message** should be sent for the corresponding skeleton sensor.
 
 ## Messages
 
