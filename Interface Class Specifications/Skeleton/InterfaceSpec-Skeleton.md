@@ -132,6 +132,12 @@ A plugin providing skeleton data shall report all of its tracker joints as descr
 ## Client Application Interface
 
 ## Open issues
+- How best to handle external VRPN devices exposing skeleton-like data without the specific SkeletonComplete message (like those below)?
+	- Require specification of number of sensors and emit SkeletonComplete when all sensors have reported? (Some systems might only report the joints they currently can observe)
+	- Somehow effectively inject SkeletonComplete before the first tracker report with a different timestamp? (assumes all joints are reported with the same timestamp, which might not be true for all systems)
+- How to allow systems like OptiTrack Motive (embedded VRPN server) to easily signal end of frame ("SkeletonComplete") without requiring re-write using OSVR? Map a button to SkeletonComplete?
+- Bone (length) computation in bones with multiple children? (See Meredith et al 2001)
+- Terminology/clarity: should we say "generalized joints" when we mean "joints and end sites" aka "things that can define bones"?
 
 ## Other resources
 - Kinect data:
