@@ -39,6 +39,30 @@ Skeleton capabilities as described here can be added to existing skeleton-like s
 
 **Skeleton fusion and transformation**: Multiple providers of skeleton data may exist, at different levels of granularity (for instance, a Kinect and an HMD-mounted Leap Motion controller) or with different fields/points of view (multiple Kinects or Leap Motion controllers). Analysis plugins may be created to take in skeletons and merge them, providing a unified skeleton with full data and high detail (different granularity), wider range of motion (different FoV), or more accuracy (different PoV). Analysis plugins may also associate a skeleton that has left the view of a vision-based system with one that has entered, identifying them as being the "same hand", for instance. Conceivably, one could envision combining a vision-based skeleton tracker with another sensor (Nod ring, for instance) to assign persistent identities to a skeleton and associate them with a real person.
 
+## Terminology
+
+- *Joint* - an articulation point between two bones (as defined below). Further, a coordinate system located at such a point, at the base of a bone they are typically named after.
+	- May be considered an internal (non-leaf) node in the tree corresponding to the skeleton.
+	- Not necessarily correlated 1-1 with anatomical joints.
+	- For example, knuckles are joints, and the spine is typically modeled with between 2 and 4 joints.
+- *Site* - A coordinate system or point specified with respect to a joint, but not a parent node.
+	- See H-ANIM documents for elaboration.
+	- Typically used only in the context of an end site.
+- *End site* - The logical equivalent of a bone with no children - a leaf node on the tree corresponding to the end of a bone.
+	- For example, a fingertip is an end site. (At times, "joints" will be used generically to refer to joints and end sites: all tracked poses that define bones.)
+- *Bone* - aka segment, and not necessarily correlated 1-1 with an anatomical bone. Defined by a base joint and another joint or end site.
+	- Effectively the dual of joints, just as vertices and faces are dual.
+	- Generally keep a constant length over time, but this constraint is not necessarily required.
+	- For example, the distal joint of a finger and the corresponding fingertip (end site) define the distal bone in that finger.
+- *Skeleton* - (aka Skeleton [interface] sensor) An articulation tree (of joints) reported as a single consistent frame.
+	- Does not necessarily include all the joints in the basic full body skeleton articulation
+		- Includes just the subtree tracked (for instance, rooted at each upper arm for a Leap Motion, thus reporting two skeletons if both hands/arms are tracked).
+		- May omit joints and end sites that the particular system does not track or model (for instance, whole-body Kinect tracking may not report fingers in its skeleton).
+- *Rig* - The animation (and/or physics) centric structure controlling 3D models in a client.
+	- Not directly used by the OSVR core, though game engine integrations may transform data from OSVR skeletons to control arbitrary or engine-standard rigs.
+- *Frame* - This refers to a a single "observation" or consistent state of a skeleton. Since skeleton data necessarily involves more than one tracked location, and those tracked locations might be simultaneously observed (or simultaneously modeled), the concept of correlating consistent state between sensors is important.
+	- As an example, consider what would happen if you just treated the sensors individually, responding as each one updated in turn. You'd find that bones shrink and grow as the basic tracker interface does not provide atomic reports of more than one sensor.
+
 ## Device description and granularity - plugin side
 
 - **Description of the articulation structure** is relatively static, and thus included in the device descriptor JSON.
