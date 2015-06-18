@@ -131,6 +131,11 @@ A plugin providing skeleton data shall report all of its tracker joints as descr
 
 ## Client Application Interface
 
+- Alias in path tree to skeleton interface sensor provides entry point to reported skeleton data
+	- Enumeration/traversal of tree provided for both bones and joints/sites, optionally identifying entities with the OSVR standard names.
+	- Direct access to joint/site and bones by OSVR sta
+	- Tracker data accessed through the skeleton is updated/emitted only on SkeletonComplete - so traversal ensures access to consistent, single-frame data.
+
 ## Open issues
 - How best to handle external VRPN devices exposing skeleton-like data without the specific SkeletonComplete message (like those below)?
 	- Require specification of number of sensors and emit SkeletonComplete when all sensors have reported? (Some systems might only report the joints they currently can observe)
