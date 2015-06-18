@@ -126,14 +126,19 @@ The following is a closeup of the right hand with select joints shown. (Note tha
 
 In 3D-capable browsers, you may be able to view an [interactive 3D viewer of this illustration](diagram/osvr_skeleton.html).
 
-## Device Plugin Interface
+## Device Plugin Design
 A plugin providing skeleton data shall report all of its tracker joints as described above, then issue a SkeletonComplete message for that skeleton sensor.
 
-## Client Application Interface
+## Client API
+
+There are three basic categories of clients that might be interested in skeleton data:
+- Those performing analysis on the skeleton data, for merging skeletons, recognizing gestures, etc. They may want a joint interface or a bone interface, and may want to refer to joints or bones by name, but can adopt our naming convention. Connectivity/topology may be important (if just to determine what subset of joints are reporting), but traversal is likely to be one-time or not at all.
+- Client applications wishing to connect skeleton data to a rig for character animation. Need mappings between names to effectively "retarget" skeleton data onto a character animation or game-engine-specific rig, though connectivity/topology may not be important on its own except to support heuristics for retargeting.
+- Client applications wishing to animate a more abstract representation of the skeleton (capsules for bones, for instance). These clients primarily care about bones and may not even care about naming or connectivity/topology, though traversal is important for enumeration purposes.
 
 - Alias in path tree to skeleton interface sensor provides entry point to reported skeleton data
-	- Enumeration/traversal of tree provided for both bones and joints/sites, optionally identifying entities with the OSVR standard names.
-	- Direct access to joint/site and bones by OSVR sta
+	- Enumeration/traversal of tree provided for both bones and joints/sites, optionally identifying entities with the OSVR canonical names.
+	- Direct access to joint/site and bones by OSVR canonical names, and possible also some built-in mappings.
 	- Tracker data accessed through the skeleton is updated/emitted only on SkeletonComplete - so traversal ensures access to consistent, single-frame data.
 
 ## Open issues
