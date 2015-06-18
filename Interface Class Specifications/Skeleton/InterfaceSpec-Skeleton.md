@@ -142,11 +142,14 @@ There are three basic categories of clients that might be interested in skeleton
 	- Tracker data accessed through the skeleton is updated/emitted only on SkeletonComplete - so traversal ensures access to consistent, single-frame data.
 
 ## Open issues
+- Standard names for children of head
+- Joints that don't report in a frame
 - How best to handle external VRPN devices exposing skeleton-like data without the specific SkeletonComplete message (like those below)?
 	- Require specification of number of sensors and emit SkeletonComplete when all sensors have reported? (Some systems might only report the joints they currently can observe)
 	- Somehow effectively inject SkeletonComplete before the first tracker report with a different timestamp? (assumes all joints are reported with the same timestamp, which might not be true for all systems)
 - How to allow systems like OptiTrack Motive (embedded VRPN server) to easily signal end of frame ("SkeletonComplete") without requiring re-write using OSVR? Map a button to SkeletonComplete?
 - Bone (length) computation in bones with multiple children? (See Meredith et al 2001)
+	- Current thought is the first child in the canonical skeleton is used, though this means we have a weird finger order to get a logical hand bone.
 - Terminology/clarity: should we say "generalized joints" when we mean "joints and end sites" aka "things that can define bones"?
 
 ## Other resources
