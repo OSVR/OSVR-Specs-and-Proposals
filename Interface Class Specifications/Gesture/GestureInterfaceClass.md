@@ -1,6 +1,6 @@
 # Interface Class Description: Gesture
 
-> Status: In Discussions
+> Status: Completed
 
 ## Device class summary
 Gesture is a form of non-verbal communication in which bodily actions communicate particular messages, which
@@ -22,28 +22,35 @@ includes movements of hand, head, and other parts of the body. There is a range 
 For majority of the cases, it would be sufficient to provide pre-set gestures such as Swipe, Scroll, etc. However a number of devices support custom gestures. One device may be tracking multiple body parts (both hands or entire body) therefore each sensor should be reporting its own gesture data, thus a single device can report multiple gestures.
 
 
-### Gesture metadata
+### Gesture Metadata
 #### Data
-- Gesture name
-- State
+- Gesture ID, either an ID from pre-set gestures or a custom ID generated when user defines their own message
+- State, either completed or in progress indicating that a gesture is continuous such as Circle
 - Sensor ID
 
 #### Rationale
 - There is a pre-set list of gestures that are common to most devices such as Swipe, Scroll, Singe Tap, etc. This list can be expanded as needed. Therefore gestures will be integer identified strings. This will allow developers to use pre-set gestures as well as easily expand gestures that haven't been added to pre-set list.
 - Both types of gestures (discrete and continuous) require a state (begin/end), corresponding to 1 and 0 respectively, that will indicate whether or not the gesture has completed, (although discrete automatically comes with an end state).
-- The applications/games will need to determine which body part is performing the gesture. Since different devices are tracking different joints sensor ID can be mapped to a specific joint (in case of multiple tracked joints) and use semantic name to map sensor number to joint name.
+- The applications/games will need to determine which body part is performing the gesture. Since different devices are tracking different joints, a sensor ID can be mapped to a specific joint (in case of multiple tracked joints) and use semantic name to map sensor number to joint name.
 
-	#####Gesture name
+####Gesture Names
 Initially we have identified the following list of pre-set gestures : 
 
-	- Swipe (left/right)
-	- Scroll (up/down)
-	- Single / Double Tap
-	- Pinch/Spread fingers (zoom in/out )
-	- Circle (clockwise / counterclockwise rotation)
-	- Long press
-	- Rotate (Touch gesture with two fingers twisting in opposite directions)
-	- Open / Closed Hand
+	- Swipe Left
+	- Swipe Right
+	- Scroll Up
+	- Scroll Down
+	- Single Tap
+	- Double Tap
+	- Pinch
+	- Finger Spread
+	- Circle
+	- Long Press
+	- Open Hand
+	- Closed Hand
+
+###Custom Gesture Names
+In addition to pre-set gesture names above, a device plugin can define its own set of gestures. For each new gesture name, system will generate a new Gesture ID. Client application can retrieve gesture names using the Gesture ID from the report.
 
 ## Open issues
 
