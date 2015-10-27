@@ -9,37 +9,23 @@ This class is one of the VR device classes carried over from VRPN, though less c
 
 A poser device may expose one or more "sensors" (in this case, actuated bodies). Not all sensors may provide the same degrees of actuation, but unlike trackers, the number of "sensors" is typically bounded and known.
 
+Note that for a variety of reasons (safety, physical limits of the device, etc.) a request from a client for the device to be actuated to a given pose, velocity, or acceleration is only a request, not a guarantee that the request will be honored within a given timeframe or at all. (Devices are free to use whatever control scheme, etc. desired.) For situations where the results of a request matter to an application, a matching Tracker interface sensor corresponding to the actual state of the device is suggested. If the device does not contain encoders sufficient to report this information, an external tracker may be used for this purpose.
+
+As this is an output device, only one application using such a device should be run at a single time. Operation when two clients are actively sending requests to the same poser interface "sensor" is officially undefined. Client requests go directly to the server and are not broadcast to other clients.
+
 ### Examples
-- IMU-based orientation trackers integrated into head-mounted displays
-- Magnetic, optical, and other 6DOF VR trackers
-- Mechanically-linked orientation and height trackers included on some kinds of navigation devices
-- Simulated trackers used as a means of representing a user's location in a virtual environment to provide for exploration.
-
-See the extensive list of hardware, primarily trackers, (legacy and contemporary) supported by VRPN: <https://github.com/vrpn/vrpn/wiki/Supported-hardware-devices> for specific examples.
-
+- Motion-base chairs
+- Mixed-reality props (movable walls and other scenery, etc.)
 
 ### Relation to other classes
-**Factoring**: While each component of the report is representable as a floating-point value, the specific nature of data as pose-related indicates that such data should be reported as tracker data whenever possible. Some commercial devices integrate tracking and gamepad-like controls: these are typically exposed as tracker interfaces with associated button and analog interfaces. The descriptor should be used to make the semantic association of particular buttons/analogs with specific tracking sensors.
+**Factoring**: This should be used any time the data flow goes from client application to device and the meaning is some subset of pose, velocity, or acceleration. (The VRPN Analog_Output interface is most similar, but is for non-pose-related output.)
 
-**From other instances of the same interface**: Sensor fusion, filtering, and predictive tracking algorithms are logical analysis possibilities that would both take in tracker input and present a tracker interface.
+**Association with other classes**: When reasonable, a corresponding sensor on a Tracker interface should be provided to permit observation of the current state of the device by one or more clients. This information may be used by configuration or an analysis device to "correct" data reported by other tracker sensors, for instances where the motion affects other tracked objects but such change should be disregarded (for example, motion-simulation bases).
 
-**From other classes**: VRPN provides "AnalogFly" and "ButtonFly" simulated trackers that allow use of analog devices (joysticks, SpaceMouse-type devices, etc) and button devices (gamepad D-Pads, etc) to simulate trackers. Other sensing devices (cameras, etc) might also be analyzed by some algorithm to produce tracking data.
-
-## Overview
-The Poser interface is summarized in the following diagram:
-
-![Poser interface class](PoserInterface.png)
+**From other classes**: Devices may choose to internally use Analog Output to control actuators to produce the desired output, though such a transformation is linked to a given device's structure and design, and not likely to be generic.
 
 ## Messages
-When tracker messages reach the application, they should be in the global coordinate system. If some other coordinate  system applies, a default transformation should be supplied in the JSON descriptor, and/or configured (for instance, if a tracker origin is attached to another tracked object such as an HMD).
-
-Devices should only report what they observe, at least on their primary device name: there is no need to compute the derivatives, or add pose integration in the driver. (Of course, if a device embeds sensor fusion, reporting that output is proper.) Additionally, each sensor should only report one of the message types for each "level" (pose, velocity, acceleration): the message that is the closest match to the device observation. 
-
-Note that becaused of the VRPN core, the so-called "subset" messages (reporting less than 6DOF) are embedded in a full 6DOF VRPN message (with missing components zero or identity) on the wire for backward compatibility. This does not affect native OSVR clients or OSVR game engine integrations, as the client library has the descriptor data to determine what portions of the message are real data.
-
-With respect to subset messages, this document is written with the device driver author primarily in mind. Client applications can access full or subset data as available, and full reports also trigger subset callbacks/populate subset data.
-
-Each message reports data on only a single sensor, and (in part because the set of sensor IDs is logically unbounded) no initial state is automatically transmitted to new clients outside of normal device operation.
+When poser API calls are performed by the application, they are typically in the room coordinate system. OSVR provides for configurable spatial transformations so that the actual messages sent over the transport and received by the device plugin are in whatever system the device expects. For simplicity, the device should align its coordinate system with the room coordinate system where possible.
 
 ### Pose
 #### Data
@@ -48,21 +34,7 @@ Each message reports data on only a single sensor, and (in part because the set 
 - Orientation (unit/normalized quaternion)
 
 #### Rationale
-This is the full, basic tracker message: providing a coordinate system at a sensor.
-
-### Position
-This is a subset message of **Pose**, for sensors that report only position.
-
-#### Data
-- Sensor number
-- Position (3D vector)
-
-### Orientation
-This is a subset message of **Pose**, for sensors that report only orientation. If a sensor sends a **Pose** message, there is no need to send a separate **Orientation** message for that same observation.
-
-#### Data
-- Sensor number
-- Orientation (unit/normalized quaternion)
+This is the full, basic poser message: providing a desired coordinate system at a sensor.
 
 ---
 
@@ -74,22 +46,7 @@ This is a subset message of **Pose**, for sensors that report only orientation. 
 - Delta time for incremental rotation (seconds)
 
 #### Rationale
-This is the full "first derivative" tracker message. It, and all of its subset messages, are in the same coordinate system as the Pose messages (that is, the global coordinate system).
-
-### LinearVelocity
-This is a subset message of **Velocity**, for sensors that report only linear/translational velocity.
-
-#### Data
-- Sensor number
-- Linear velocity (m/s) (3D vector)
-
-### AngularVelocity
-This is a subset message of **Velocity**, for sensors that report only rotational velocity (such as rate gyros).
-
-#### Data
-- Sensor number
-- Incremental rotation per delta time (unit/normalized quaternion)
-- Delta time for incremental rotation (seconds)
+This is the full "first derivative" poser message. It is in the same coordinate system as the Pose messages (that is, the room coordinate system) at the client API level and subject to the same transformations.
 
 ---
 
@@ -101,30 +58,12 @@ This is a subset message of **Velocity**, for sensors that report only rotationa
 - Delta time for rotation (seconds)
 
 #### Rationale
-This is the full "second derivative" tracker message. It, and all of its subset messages, are in the same coordinate system as the Pose messages (that is, the global coordinate system).
+This is the full "second derivative" poser message. It is in the same coordinate system as the Pose messages (that is, the room coordinate system) at the client API level and subject to the same transformations.
 
-Note that gravity is not included in the linear acceleration component: a sensor that is fully still should report 0 acceleration.
+As with the tracker interface, linear acceleration requests should not include the effects of gravity: if a client wants to change the direction of gravity, a pose request is the way to do that.
 
-### LinearAcceleration
-This is a subset message of **Acceleration**, for sensors that report only linear/translational acceleration, such as an accelerometer (though accelerometer data should have the effect of gravity filtered out of it first).
-
-#### Data
-- Sensor number
-- Linear acceleration, exclusive of gravity (m/s^2) (3D vector)
-
-### AngularAcceleration
-This is a subset message of **Acceleration**, for sensors that report only rotational acceleration.
-
-#### Data
-- Sensor number
-- Increment in incremental rotation per delta time (unit/normalized quaternion)
-- Delta time for rotation (seconds)
-
+---
 
 ## Open issues
 
-- The relationship between trackers and locomotion devices is somewhat open. Present thinking is that most consumer-related locomotion devices provide a locomotion interface (which is primarily a 2D movement - velocity on the plane) as well as a limited tracker interface that reports the direction a user is facing and height for crouching/jumping.
-- The current derivative messages can provide raw data from only two of the three instruments integrated into modern "9-axis" IMUs: rate gyroscopes and accelerometers can be reported in the derivative messages, but the magnetometer/compass data cannot. (And, the direction of gravity detected by the accelerometer cannot be reported.) Presently, compass data is either reported in a vendor-specific way in analog channels or not reported at all, but to permit sensor-fusion algorithms within OSVR it might be useful to have a standardized compass report.
-- A number of predictive tracking and sensor fusion algorithms (the family derived from the Kalman filter, most recognizably) operate using the data and a measurement of uncertainty. There is currently no standardized way to report uncertainty in measurements in this (or other) interfaces, besides an analog channel with user-defined semantics or fixed uncertainty reported in JSON descriptions.
-- Might a single sensor conceivably report just a position at one time and at some later time report orientation only or a full pose? Or, can we infer that the particular subset/full message sent is the data sent on that channel?
-- The preferred semantics for handling "downgrading" of messages to subset messages is currently an open topic.
+- Trackers report their measured degrees of freedom in device descriptor data, which flows from server to client, The existing Poser reports are full reports, with no field to indicate the activity/validity of a component (to easily send subset reports). How to manage requesting a subset of the full pose/velocity/acceleration is still open.
