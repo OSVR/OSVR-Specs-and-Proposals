@@ -47,7 +47,8 @@ Skeleton capabilities as described here can be added to existing skeleton-like s
 	- For example, knuckles are joints, and the spine is typically modeled with between 2 and 4 joints.
 - *Site* - A coordinate system or point specified with respect to a joint, but not a parent node.
 	- See H-ANIM documents for elaboration.
-	- Typically used only in the context of an end site.
+	- Most often used in the context of an end site.
+	- Sites that are not end sites are things like the palm - no children, do not define the end of a bone. The term *pure site* is suggested as a way of referring to the subset of sites that are not end sites.
 - *End site* - The logical equivalent of a bone with no children - a leaf node on the tree corresponding to the end of a bone.
 	- For example, a fingertip is an end site. (At times, "joints" will be used generically to refer to joints and end sites: all tracked poses that define bones.)
 - *Bone* - aka segment, and not necessarily correlated 1-1 with an anatomical bone. Defined by a base joint and another joint or end site.
@@ -170,7 +171,7 @@ There are three basic categories of clients that might be interested in skeleton
 	- Examples and other links: <http://www.web3d.org/x3d/content/examples/Basic/HumanoidAnimation/>
 	- Magnenat-Thalmann, N., & Thalmann, D. (Eds.). (2004). H-Anim Joint and Segment Topology. In *Handbook of Virtual Humans* (pp. 393–395). <http://doi.org/10.1002/0470023198.app2>
 
-- Meredith, M., Maddock, S., & Road, P. (2001). Motion Capture File Formats Explained. Motion Capture Stuff, 1–36. <http://doi.org/10.1.1.103.2097>
+- Meredith, M., Maddock, S., & Road, P. (2001). Motion Capture File Formats Explained. Motion Capture Stuff, 1–36. <http://www.dcs.shef.ac.uk/intranet/research/public/resmes/CS0111.pdf>
 
 - Academic authors:
 
