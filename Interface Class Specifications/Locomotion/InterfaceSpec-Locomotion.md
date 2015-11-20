@@ -50,6 +50,10 @@ To use this interface, an application would likely compute a "delta-position" at
 - Is it correct to limit this class to the 2D ground plane?
 - Coordinate system: world coordinates have `x` to the user's right and `z` pointing "backwards". OK to ask for data in this format?
 
+Comments:
+* Limiting to 2D ground plane should be enough. Ground collision detection in the game accounts for vertical movement. If there will be feedback from the game to the locomotion device this is a separate task.
+* What is the rationale of having 'z' pointing backwards?
+
 ![Coordinates top view](User in World Coordinates - top view.png)
 
 ![Coordinates behind view](User in World Coordinates from behind-left.png)
