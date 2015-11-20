@@ -43,12 +43,16 @@ This is the general base format of output from such devices. It is the most comm
 #### Rationale
 This is an optional message, only sent if the device itself measures it, or if an analysis plugin computes it. It is effectively is the integral of velocity. However, particularly for active devices, if an application does not perform integration at least as fast as the device is sampling, substantial error is foreseen.
 
-To use this interface, an application would likely compute a "delta-position" at its convenience, rather than explicitly using the position directly. Devices could report this themselves (particularly in active devices where this can be directly measured), or an analysis plugin could perform the integration to add these messages to a device that doesn't report them.
+To use this interface, an application would likely compute a "delta-position" at its convenience, rather than explicitly using the position directly. This would be based around the NavigationVelocity 2D vector and would allow the application to account for collision detection with objects through its own physics engine. Devices could report this themselves (particularly in active devices where this can be directly measured), or an analysis plugin could perform the integration to add these messages to a device that doesn't report them.
 
 ## Open issues
 
 - Is it correct to limit this class to the 2D ground plane?
 - Coordinate system: world coordinates have `x` to the user's right and `z` pointing "backwards". OK to ask for data in this format?
+
+Comments:
++* Limiting to 2D ground plane should be enough at this point. Ground collision detection in the game accounts for vertical movement. If there will be feedback from the game to the locomotion device (e.g. rumble, tilt) this is a separate interface.
++* What is the rationale of having 'z' pointing backwards?
 
 ![Coordinates top view](User in World Coordinates - top view.png)
 
