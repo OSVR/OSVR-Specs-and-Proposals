@@ -2,7 +2,7 @@
 > Status: Draft Proposal
 
 ## Device class summary
-The display interface is responsible for filling the roll previously filled by static display config json in osvr_server_config.json. Where previously the user would be responsible for selecting the correct display configuration, the display interface allows hardware plugins to specify these parameters automatically at runtime.
+The display interface is responsible for filling the role previously filled by static display config json in osvr_server_config.json. Where previously the user would be responsible for selecting the correct display configuration, the display interface allows hardware plugins to specify these parameters automatically at runtime.
 
 ### Examples
 - None
