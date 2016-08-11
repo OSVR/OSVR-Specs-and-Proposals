@@ -50,7 +50,7 @@ The Display message is the root object of the Display interface. It references b
 - On Windows, dx adapter number (??? string?)
 - logical id or platform-agnostic identifier (string? or int? referenced by logical topology)
 - location and orientation (physical orientation and location? relative to what?)
-- eye relief/lense-to-screen distance (if not represented with location/orientation above)
+- eye relief/lens-to-screen distance (if not represented with location/orientation above)
 - Scan-out direction (unit OSVR_Vec2)
 - Scan-out framerate (analog/float)
 - estimated latency to start of render in ms (analog/float)
