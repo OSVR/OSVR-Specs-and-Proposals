@@ -5,7 +5,6 @@ Interface class specifications and device integration proposals in development
 	- Analog
 	- Button
 	- Configuration
-	- Enhanced tracker
 	- Eye tracking
 	- Gesture
 	- Imaging
