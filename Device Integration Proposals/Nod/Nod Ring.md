@@ -56,4 +56,4 @@ If your SDK varies substantially between platforms, you may need to use differen
 As your device uses existing interface classes, we are confident that your development experience should be smooth. However, to aid us in our ability to support you, if your plugin is developed in a private GitHub repository, we suggest adding a team with read access to that repository, with the following Sensics staff added to that team:
 
 - Ryan Pavlik - GitHub username `rpavlik`
-- Yuval Boger - GitHub username `yboger`
+- Yuval Boger - GitHub username `VRguy`
