@@ -17,6 +17,9 @@ Interface class specifications and device integration proposals in development
 
 As of January 2017, here is the implementation status of the various interfaces:
 
+
+![](InterfaceStatus.JPG)
+
 |Interface  |Implemented in VRPN  | Full OSVR implementation | Incomplete branch | Accessible today via Unity/Unreal plugins |
 |--|::|::|::|::|
 |Tracker |✓  |✓  |  |✓  |
